@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KisanOS — Farmer ka Digital OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-deep: #0a2e1a;
+  --green-mid: #1a5c2e;
+  --green-bright: #22c55e;
+  --green-light: #bbf7d0;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --soil: #92400e;
+  --cream: #fefce8;
+  --white: #ffffff;
+  --text-muted: #6b7280;
+  --border: rgba(34,197,94,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  background: var(--green-deep);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 4rem;
+  background: rgba(10,46,26,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.5rem;
+  color: var(--green-bright);
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--amber); }
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem; font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green-bright); }
+
+.nav-cta {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  background: var(--green-bright); color: var(--green-deep);
+  border: none; border-radius: 8px;
+  padding: 0.6rem 1.4rem; cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.nav-cta:hover { background: #16a34a; transform: scale(1.02); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 8rem 4rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(34,197,94,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 70%, rgba(245,158,11,0.06) 0%, transparent 60%);
+}
+
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(34,197,94,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 100px;
+  padding: 0.4rem 1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--green-bright);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero h1 .accent { color: var(--green-bright); }
+.hero h1 .accent2 { color: var(--amber); }
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-actions {
+  display: flex; gap: 1rem; align-items: center;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.95rem;
+  background: var(--green-bright); color: var(--green-deep);
+  border: none; border-radius: 10px;
+  padding: 0.9rem 2rem; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #16a34a; transform: translateY(-2px); }
+
+.btn-secondary {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600; font-size: 0.9rem;
+  background: transparent; color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 0.9rem 2rem; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--green-bright); color: var(--green-bright); }
+
+.hero-stats {
+  display: flex; gap: 3rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+.stat-item {}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem; font-weight: 800;
+  color: var(--green-bright);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+.hero-visual {
+  position: absolute; right: 4rem; top: 50%;
+  transform: translateY(-50%);
+  width: 420px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+/* ── PHONE MOCKUP ── */
+.phone-frame {
+  width: 240px; height: 480px;
+  background: #111;
+  border-radius: 36px;
+  border: 2px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.phone-screen {
+  width: 100%; height: 100%;
+  background: #0f1f14;
+  display: flex; flex-direction: column;
+  padding: 1rem;
+  font-size: 0.7rem;
+}
+
+.phone-status {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem; color: rgba(255,255,255,0.5); font-size: 0.6rem;
+  font-family: 'Syne', sans-serif;
+}
+
+.phone-greeting { color: rgba(255,255,255,0.4); font-size: 0.62rem; margin-bottom: 2px; }
+.phone-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: #fff; }
+
+.phone-alert {
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 10px; padding: 0.6rem;
+  margin: 0.75rem 0;
+}
+.phone-alert-title { color: var(--green-bright); font-weight: 600; font-size: 0.65rem; margin-bottom: 2px; font-family: 'Syne', sans-serif; }
+.phone-alert-text { color: rgba(255,255,255,0.7); font-size: 0.6rem; line-height: 1.4; }
+
+.phone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0.5rem 0; }
+.phone-tile {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px; padding: 0.6rem;
+  text-align: center;
+}
+.phone-tile-icon { font-size: 1.1rem; margin-bottom: 3px; }
+.phone-tile-label { font-size: 0.55rem; color: rgba(255,255,255,0.5); font-family: 'Syne', sans-serif; }
+
+.phone-price-bar {
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 8px; padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+.phone-price-label { font-size: 0.55rem; color: rgba(255,255,255,0.4); margin-bottom: 4px; font-family: 'Syne', sans-serif; }
+.phone-price-row { display: flex; justify-content: space-between; align-items: center; }
+.phone-price-val { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--amber); font-size: 0.8rem; }
+.phone-price-up { font-size: 0.55rem; color: var(--green-bright); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── PROBLEM SECTION ── */
+.section { padding: 6rem 4rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.section-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--green-bright); margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  max-width: 540px;
+  margin-bottom: 3rem;
+}
+
+/* ── PROBLEM GRID ── */
+.problem-section { background: #060f0a; }
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.problem-item {
+  background: #0a1810;
+  padding: 2rem;
+  transition: background 0.2s;
+}
+.problem-item:hover { background: #0d2018; }
+
+.prob-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  color: rgba(34,197,94,0.4);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.prob-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.prob-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.prob-desc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+.prob-loss {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  color: #ef4444;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 6px;
+  padding: 2px 10px;
+}
+
+/* ── FEATURES ── */
+.features-section { background: var(--green-deep); }
+
+.features-list { display: flex; flex-direction: column; gap: 1px; }
+
+.feature-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border-radius: 16px; overflow: hidden;
+  margin-bottom: 1px;
+}
+
+.feature-left {
+  background: #0d201a;
+  padding: 3rem;
+}
+
+.feature-right {
+  background: #081410;
+  padding: 3rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+.feature-tag {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--green-bright);
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.7rem; font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.feature-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.chip {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 4px 12px; border-radius: 100px;
+  border: 1px solid rgba(34,197,94,0.25);
+  color: rgba(255,255,255,0.6);
+  background: rgba(34,197,94,0.05);
+}
+
+.before-after {
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.ba-card {
+  border-radius: 12px; padding: 1rem 1.25rem;
+  font-size: 0.82rem; line-height: 1.5;
+}
+
+.ba-card.before {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.15);
+  color: rgba(255,255,255,0.6);
+}
+
+.ba-card.after {
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.2);
+  color: rgba(255,255,255,0.75);
+}
+
+.ba-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.ba-card.before .ba-label { color: #ef4444; }
+.ba-card.after .ba-label { color: var(--green-bright); }
+
+.ba-gain {
+  margin-top: 8px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 1.3rem;
+  color: var(--green-bright);
+}
+
+/* ── EXPERT SECTION ── */
+.expert-section { background: #060f0a; }
+
+.expert-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+  margin-top: 1rem;
+}
+
+.expert-card {
+  background: #0d201a;
+  border: 1px solid rgba(34,197,94,0.12);
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.expert-card:hover { border-color: rgba(34,197,94,0.35); transform: translateY(-4px); }
+
+.expert-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem; font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.expert-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.95rem;
+  color: #fff; margin-bottom: 2px;
+}
+
+.expert-role {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 1rem;
+}
+
+.expert-spec {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.expert-pricing {
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.price-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.78rem;
+}
+
+.price-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  min-width: 42px; text-align: center;
+}
+
+.free-badge { background: rgba(34,197,94,0.15); color: var(--green-bright); }
+.paid-badge { background: rgba(245,158,11,0.15); color: var(--amber); }
+
+.price-text { color: rgba(255,255,255,0.55); }
+
+.expert-earn {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(34,197,94,0.1);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+}
+.expert-earn span {
+  color: var(--green-bright);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ── HOW IT WORKS ── */
+.how-section { background: var(--green-deep); }
+
+.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-radius: 16px; overflow: hidden; }
+
+.step-item {
+  background: #0d201a;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.step-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 3rem; font-weight: 800;
+  color: rgba(34,197,94,0.1);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  color: #fff; margin-bottom: 0.5rem;
+}
+
+.step-desc {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+/* ── REVENUE MODEL ── */
+.revenue-section { background: #060f0a; }
+
+.revenue-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+
+.rev-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(34,197,94,0.1);
+  transition: border-color 0.2s;
+}
+.rev-card:hover { border-color: rgba(34,197,94,0.3); }
+
+.rev-card.highlight {
+  background: rgba(34,197,94,0.06);
+  border-color: rgba(34,197,94,0.2);
+}
+
+.rev-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+
+.rev-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.9rem;
+  color: #fff; margin-bottom: 0.4rem;
+}
+
+.rev-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+}
+
+.rev-amount {
+  margin-top: 0.75rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  color: var(--amber);
+}
+
+/* ── VS SECTION ── */
+.vs-section { background: var(--green-deep); }
+
+.vs-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.vs-table th {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem; font-weight: 700;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.vs-table th:first-child { background: #0d201a; color: rgba(255,255,255,0.5); }
+.vs-table th:nth-child(2) { background: #0d201a; color: rgba(255,255,255,0.5); }
+.vs-table th:nth-child(3) { background: rgba(34,197,94,0.1); color: var(--green-bright); }
+
+.vs-table td {
+  padding: 0.85rem 1.5rem;
+  font-size: 0.83rem;
+  color: rgba(255,255,255,0.6);
+  border-bottom: 1px solid var(--border);
+}
+
+.vs-table tr:last-child td { border-bottom: none; }
+.vs-table td:first-child { color: rgba(255,255,255,0.4); font-size: 0.78rem; }
+.vs-table tr:nth-child(odd) td:nth-child(3) { background: rgba(34,197,94,0.04); }
+.vs-table tr:nth-child(even) td:nth-child(3) { background: rgba(34,197,94,0.02); }
+
+.yes { color: var(--green-bright); font-weight: 600; font-family: 'Syne', sans-serif; }
+.no { color: #ef4444; }
+.partial { color: var(--amber); }
+
+/* ── CTA SECTION ── */
+.cta-section {
+  background: linear-gradient(135deg, #0d2e1a 0%, #0a1f12 100%);
+  text-align: center;
+  padding: 8rem 4rem;
+  border-top: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+
+.cta-glow {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(34,197,94,0.06) 0%, transparent 70%);
+}
+
+.cta-content { position: relative; z-index: 1; }
+
+.cta-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.cta-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 2.5rem;
+  max-width: 460px; margin-left: auto; margin-right: auto;
+  line-height: 1.7;
+}
+
+.cta-actions { display: flex; gap: 1rem; justify-content: center; }
+
+/* ── FOOTER ── */
+footer {
+  background: #060f0a;
+  padding: 2rem 4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border);
+}
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Syne', sans-serif;
+}
+
+.footer-tagline {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Syne', sans-serif;
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.fade-in {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 7rem 1.5rem 3rem; flex-direction: column; }
+  .hero-visual { position: static; transform: none; width: 100%; margin-top: 2rem; }
+  .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+  .section { padding: 4rem 1.5rem; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .feature-row { grid-template-columns: 1fr; }
+  .expert-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .revenue-grid { grid-template-columns: 1fr; }
+  .vs-table { font-size: 0.75rem; }
+  .vs-table td, .vs-table th { padding: 0.7rem 0.75rem; }
+  .cta-section { padding: 4rem 1.5rem; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Kisan<span>OS</span></div>
+  <ul class="nav-links">
+    <li><a href="#problems">Problems</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#experts">Experts</a></li>
+    <li><a href="#model">Model</a></li>
+  </ul>
+  <button class="nav-cta">Join Waitlist</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      India's First Unified Farm Platform
+    </div>
+    <h1>
+      Farmer ka<br>
+      <span class="accent">Digital</span><br>
+      <span class="accent2">Brain.</span>
+    </h1>
+    <p class="hero-sub">
+      140 crore farmers. 6 alag apps. Zero unity. KisanOS ek hi platform pe
+      advisory, marketplace, labour, equipment, experts, aur fintech — sab ek jagah.
+      Hindi mein. Free demo ke saath.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary">Free Demo Try Karo</button>
+      <button class="btn-secondary">Solution Dekho →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">14Cr+</div>
+        <div class="stat-label">Indian farmers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">₹850</div>
+        <div class="stat-label">Average monthly income</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6 Apps</div>
+        <div class="stat-label">Farmer manage karta hai</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-label">KisanOS — sab ka solution</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-status">
+          <span>9:41</span><span>●●●</span>
+        </div>
+        <div class="phone-greeting">Namaste,</div>
+        <div class="phone-name">Ramesh Singh Ji 🌾</div>
+        <div class="phone-alert">
+          <div class="phone-alert-title">⚠ Fasal Alert — Abhi dekhein</div>
+          <div class="phone-alert-text">Aapke gehu ke patte pe Zinc deficiency detect hui. Zinc Sulphate 25kg/acre daalein agle 2 din mein.</div>
+        </div>
+        <div class="phone-grid">
+          <div class="phone-tile">
+            <div class="phone-tile-icon">🌿</div>
+            <div class="phone-tile-label">Crop Doctor</div>
+          </div>
+          <div class="phone-tile">
+            <div class="phone-tile-icon">🏪</div>
+            <div class="phone-tile-label">Marketplace</div>
+          </div>
+          <div class="phone-tile">
+            <div class="phone-tile-icon">👨‍🌾</div>
+            <div class="phone-tile-label">Labour Network</div>
+          </div>
+          <div class="phone-tile">
+            <div class="phone-tile-icon">🚁</div>
+            <div class="phone-tile-label">Drone Rent</div>
+          </div>
+        </div>
+        <div class="phone-price-bar">
+          <div class="phone-price-label">TOMATO PRICE PREDICTION — NEXT 3 DAYS</div>
+          <div class="phone-price-row">
+            <div class="phone-price-val">₹19–22/kg</div>
+            <div class="phone-price-up">↑ 78% chance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section problem-section" id="problems">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-in">Root Problem</p>
+    <h2 class="section-title fade-in">Indian farmer ko <br>kya kya jhhelna padta hai?</h2>
+    <p class="section-sub fade-in">Subah 5 baje uthke raat 8 baje sone wala farmer — phir bhi ₹850/mahina. Kyun? Kyunki yeh sab problems hain aur koi solve nahi kar raha.</p>
+    <div class="problem-grid fade-in">
+      <div class="problem-item">
+        <div class="prob-num">PROBLEM 01</div>
+        <span class="prob-icon">🦠</span>
+        <div class="prob-title">Disease ka koi doctor nahi</div>
+        <div class="prob-desc">Fasal mein bimari lagi — pados wala bolta hai kuch, aur bolta hai kuch. Galat fertilizer daalo toh poori fasal khatam.</div>
+        <span class="prob-loss">Avg loss: ₹18,000/season</span>
+      </div>
+      <div class="problem-item">
+        <div class="prob-num">PROBLEM 02</div>
+        <span class="prob-icon">💸</span>
+        <div class="prob-title">Mandi mein thagi hoti hai</div>
+        <div class="prob-desc">Aadti bolta hai "aaj ₹6/kg hai" — farmer maan leta hai. 50km door ₹14/kg chal raha hai — farmer ko pata hi nahi.</div>
+        <span class="prob-loss">Price gap: 60–70% loss</span>
+      </div>
+      <div class="problem-item">
+        <div class="prob-num">PROBLEM 03</div>
+        <span class="prob-icon">👷</span>
+        <div class="prob-title">Labour harvest pe milti nahi</div>
+        <div class="prob-desc">Harvesting ka waqt aaya, 15 workers chahiye — 4 milte hain. Baaki crop khet mein hi saad jaati hai. Tractor bhi jugaad se milta hai.</div>
+        <span class="prob-loss">Crop loss: ₹28,000+</span>
+      </div>
+      <div class="problem-item">
+        <div class="prob-num">PROBLEM 04</div>
+        <span class="prob-icon">📋</span>
+        <div class="prob-title">Govt ka paisa milta nahi</div>
+        <div class="prob-desc">PM Kisan, PMFBY — sab schemes hain, lekin process itna complicated hai ki paisa farmer ke paas pahuchta hi nahi. CSC wale ₹500 lete hain.</div>
+        <span class="prob-loss">Missing: ₹6,000–50,000/yr</span>
+      </div>
+      <div class="problem-item">
+        <div class="prob-num">PROBLEM 05</div>
+        <span class="prob-icon">👴</span>
+        <div class="prob-title">Expert ka knowledge waste hota hai</div>
+        <div class="prob-desc">Retired farmer ke paas 30 saal ka knowledge hai — but woh kisi kaam nahi aata. Naye farmer akele galti karte hain, nuksaan uthate hain.</div>
+        <span class="prob-loss">Knowledge gap = crop failure</span>
+      </div>
+      <div class="problem-item">
+        <div class="prob-num">PROBLEM 06</div>
+        <span class="prob-icon">📱</span>
+        <div class="prob-title">6 alag apps — koi unity nahi</div>
+        <div class="prob-desc">Weather, fertilizer, mandi price, loan — sab ke liye alag app. Farmer ke paas phone hai lekin 6 apps manage karna impossible hai.</div>
+        <span class="prob-loss">Zero unified solution</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features-section" id="features">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-in">Platform Features</p>
+    <h2 class="section-title fade-in">Ek platform, <br>sab kuch solve.</h2>
+    <p class="section-sub fade-in">Har problem ka ek clear solution — AI se bhi, humans se bhi. Free demo ke saath.</p>
+
+    <div class="features-list">
+
+      <!-- Feature 1 -->
+      <div class="feature-row fade-in">
+        <div class="feature-left">
+          <div class="feature-tag">Feature 01 — AI Crop Doctor</div>
+          <h3 class="feature-title">Photo lo,<br>8 second mein<br>diagnosis milti hai.</h3>
+          <p class="feature-desc">Camera se patte ki photo lo. AI instantly disease detect karta hai, correct treatment bolta hai, Hindi mein voice se samjhata hai — dose, timing, aur kahan se khareedna hai sab.</p>
+          <div class="feature-chips">
+            <span class="chip">Hindi voice</span>
+            <span class="chip">Offline bhi kaam karta hai</span>
+            <span class="chip">Camera diagnosis</span>
+            <span class="chip">Weather-based advice</span>
+            <span class="chip">10+ regional languages</span>
+          </div>
+        </div>
+        <div class="feature-right">
+          <div class="before-after">
+            <div class="ba-card before">
+              <div class="ba-label">Pehle — Bina platform</div>
+              Ramesh ne pados wale ki sun ke ₹4,800 ka galat fertilizer daala. Fasal 40% kharab. Total nuksaan ₹18,000.
+            </div>
+            <div class="ba-card after">
+              <div class="ba-label">Baad mein — KisanOS ke saath</div>
+              Photo li → "Zinc deficiency" detect → Zinc Sulphate 25kg/acre → Fasal bachI → Yield 18% zyada.
+              <div class="ba-gain">+₹18,000 saved</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-row fade-in">
+        <div class="feature-left">
+          <div class="feature-tag">Feature 02 — Smart Marketplace</div>
+          <h3 class="feature-title">3 din pehle<br>price predict,<br>directly sell karo.</h3>
+          <p class="feature-desc">AI agle 3 din ka mandi rate predict karta hai. Farmer decide karta hai kab bechna hai. Direct buyers se connect — koi middleman nahi, poora paisa farmer ka.</p>
+          <div class="feature-chips">
+            <span class="chip">Price prediction 78% accuracy</span>
+            <span class="chip">Direct buyer</span>
+            <span class="chip">Brand banao</span>
+            <span class="chip">Global export</span>
+            <span class="chip">Subscription model</span>
+          </div>
+        </div>
+        <div class="feature-right">
+          <div class="before-after">
+            <div class="ba-card before">
+              <div class="ba-label">Pehle — Bina platform</div>
+              Sunita ko mandi aadti ne ₹6/kg diya. Same din dusre farmer ko ₹14/kg mila. ₹6,400 ka nuksaan 800kg pe.
+            </div>
+            <div class="ba-card after">
+              <div class="ba-label">Baad mein — KisanOS ke saath</div>
+              AI alert → Harvest roka 4 din → Mumbai restaurant chain → ₹19/kg directly → No middleman.
+              <div class="ba-gain">+₹10,400 extra income</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-row fade-in">
+        <div class="feature-left">
+          <div class="feature-tag">Feature 03 — Labour Network + RaaS</div>
+          <h3 class="feature-title">Workers jab<br>chahiye — Drones<br>rent pe, hourly.</h3>
+          <p class="feature-desc">Uber jaisa — workers ki request karo, 2 ghante mein verified labour aata hai. Drone, tractor, sprayer hourly rent pe — khareedne ki zarurat nahi. Kaam ke baad payment automatic.</p>
+          <div class="feature-chips">
+            <span class="chip">Verified workers</span>
+            <span class="chip">AI labour matching</span>
+            <span class="chip">Drone ₹850/3hr</span>
+            <span class="chip">Payment protection</span>
+            <span class="chip">Seasonal hiring</span>
+          </div>
+        </div>
+        <div class="feature-right">
+          <div class="before-after">
+            <div class="ba-card before">
+              <div class="ba-label">Pehle — Bina platform</div>
+              Arjun ko 15 workers chahiye the, 4 mile. Baaki crop saad gayi — ₹28,000 nuksaan. Drone ₹4.5 lakh ka.
+            </div>
+            <div class="ba-card after">
+              <div class="ba-label">Baad mein — KisanOS ke saath</div>
+              App pe request → 14 verified workers → Drone rent ₹850 mein → Poori crop harvest → Nuksaan zero.
+              <div class="ba-gain">₹28,000 loss avoided</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-row fade-in">
+        <div class="feature-left">
+          <div class="feature-tag">Feature 04 — FinTech + Govt Schemes</div>
+          <h3 class="feature-title">Govt ka paisa<br>seedha account<br>mein aayega.</h3>
+          <p class="feature-desc">Platform automatically check karta hai kaun si schemes ke liye eligible ho. Step by step Hindi mein guide. Auto bookkeeping se credit history banti hai — loan 4% pe milta hai bina bank ke chakkar ke.</p>
+          <div class="feature-chips">
+            <span class="chip">PM Kisan auto-apply</span>
+            <span class="chip">PMFBY insurance</span>
+            <span class="chip">KCC loan 4%</span>
+            <span class="chip">Auto bookkeeping</span>
+            <span class="chip">No agent, no bribe</span>
+          </div>
+        </div>
+        <div class="feature-right">
+          <div class="before-after">
+            <div class="ba-card before">
+              <div class="ba-label">Pehle — Bina platform</div>
+              Meena ne PM Kisan apply kiya, CSC wale ne ₹500 liye, kuch nahi hua. Eligible thi — process nahi pata tha.
+            </div>
+            <div class="ba-card after">
+              <div class="ba-label">Baad mein — KisanOS ke saath</div>
+              4 schemes auto-detect → Hindi mein guide → PM Kisan ₹6,000 + KCC loan ₹1.2L at 4%. Zero agent.
+              <div class="ba-gain">₹1,26,000 total benefit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERT MARKETPLACE -->
+<section class="section expert-section" id="experts">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-in">Expert Marketplace</p>
+    <h2 class="section-title fade-in">Knowledge bhi<br>ek crop hai.</h2>
+    <p class="section-sub fade-in">Experienced farmers aur agriculture specialists apna 30 saal ka knowledge monetize karein. Free demo se trust bane, phir paid sessions. Teen log jeete hain.</p>
+
+    <div class="expert-grid fade-in">
+      <div class="expert-card">
+        <div class="expert-avatar" style="background:rgba(245,158,11,0.15);color:#f59e0b">RS</div>
+        <div class="expert-name">Ramesh Singh</div>
+        <div class="expert-role">Experienced Farmer, 58 · Vidisha, MP · 4.9 ⭐</div>
+        <div class="expert-spec">32 saal ka wheat + soybean experience. Soil management aur local variety selection mein expert. Hindi + Bundeli mein guide karte hain.</div>
+        <div class="expert-pricing">
+          <div class="price-row">
+            <span class="price-badge free-badge">FREE</span>
+            <span class="price-text">15 min demo call — zero risk</span>
+          </div>
+          <div class="price-row">
+            <span class="price-badge paid-badge">PAID</span>
+            <span class="price-text">₹299/session — full guidance</span>
+          </div>
+        </div>
+        <div class="expert-earn">Is mahine earning: <span>₹8,400</span></div>
+      </div>
+
+      <div class="expert-card">
+        <div class="expert-avatar" style="background:rgba(34,197,94,0.15);color:#22c55e">DK</div>
+        <div class="expert-name">Dr. Deepa Kulkarni</div>
+        <div class="expert-role">Agriculture Specialist · PhD Agronomy, Pune · Ex-ICAR</div>
+        <div class="expert-spec">11 saal field experience. Pest control, organic farming, aur sustainable agriculture mein specialization. Research-backed practical advice.</div>
+        <div class="expert-pricing">
+          <div class="price-row">
+            <span class="price-badge free-badge">FREE</span>
+            <span class="price-text">Written Q&A — 24hr reply</span>
+          </div>
+          <div class="price-row">
+            <span class="price-badge paid-badge">PAID</span>
+            <span class="price-text">₹799/session — video call</span>
+          </div>
+        </div>
+        <div class="expert-earn">Is mahine earning: <span>₹24,600</span></div>
+      </div>
+
+      <div class="expert-card">
+        <div class="expert-avatar" style="background:rgba(99,153,34,0.15);color:#639922">MV</div>
+        <div class="expert-name">Mangesh Yadav</div>
+        <div class="expert-role">Retired KVK Officer · 18 sal govt experience · Maharashtra</div>
+        <div class="expert-spec">Irrigation, water management, aur drip systems mein expert. Sarkar ki schemes aur government processes ka poora knowledge. Hindi + Marathi.</div>
+        <div class="expert-pricing">
+          <div class="price-row">
+            <span class="price-badge free-badge">FREE</span>
+            <span class="price-text">Weekly group webinar</span>
+          </div>
+          <div class="price-row">
+            <span class="price-badge paid-badge">PAID</span>
+            <span class="price-text">₹199/month subscription</span>
+          </div>
+        </div>
+        <div class="expert-earn">847 subscribers · <span>₹1,34,000/mo</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:12px" class="fade-in">
+      <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem">👨‍🌾</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;margin-bottom:4px">Experienced Farmers</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5">20+ saal ka kaam, local crop knowledge, regional language mein guide karein</div>
+      </div>
+      <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem">🎓</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;margin-bottom:4px">Agriculture Graduates</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5">BSc/MSc Agri students side income banayein, practical experience bhi milega</div>
+      </div>
+      <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem">🏛</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;margin-bottom:4px">Retired KVK / Govt Officers</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5">Retirement ke baad bhi income, government credibility ke saath</div>
+      </div>
+      <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem">🚁</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;margin-bottom:4px">Agri-Tech Specialists</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5">Drone operators, soil labs, irrigation engineers — niche premium advice</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section" id="how">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-in">How It Works</p>
+    <h2 class="section-title fade-in">Kisan se kisan tak<br>ka safar.</h2>
+    <p class="section-sub fade-in">Naya farmer se lekar experienced expert tak — sab ka ek simple journey.</p>
+    <div class="steps fade-in">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-title">Free Demo Se Shuru</div>
+        <div class="step-desc">Koi bhi farmer app download kare, ek problem daale — free 15 min demo call ya AI se seedha jawab. Zero risk, zero cost.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-title">AI + Expert Saath Deta Hai</div>
+        <div class="step-desc">AI disease detect karta hai, price predict karta hai. Expert video call pe sahi guidance deta hai — dono saath mein kaam karte hain.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-title">Trust Banta Hai → Paid</div>
+        <div class="step-desc">Pehli baar sahi solution mila — trust bana. Phir farmer monthly subscription leta hai, ya paid expert session book karta hai.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-title">Poora Ecosystem Kaam Karta Hai</div>
+        <div class="step-desc">Marketplace se sell karo, labour hire karo, drone rent karo, loan lo — sab ek hi app mein. Platform commission se revenue, sab khush.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE MODEL -->
+<section class="section revenue-section" id="model">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-in">Business Model</p>
+    <h2 class="section-title fade-in">Paisa kahan se<br>aayega?</h2>
+    <p class="section-sub fade-in">6 alag revenue streams — subscription se lekar data licensing tak. Jitna platform bada hoga, utna zyada paisa.</p>
+    <div class="revenue-grid fade-in">
+      <div class="rev-card highlight">
+        <div class="rev-icon">💳</div>
+        <div class="rev-title">Subscription</div>
+        <div class="rev-desc">Farmer ₹99–₹499/month pay karta hai. Basic free, premium mein full features. Predictable recurring revenue.</div>
+        <div class="rev-amount">₹99 – ₹499 / month</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">🏪</div>
+        <div class="rev-title">Marketplace Commission</div>
+        <div class="rev-desc">Farmer jab crop sell karta hai, platform 2–5% commission leta hai. Transaction volume badhega toh revenue badhega.</div>
+        <div class="rev-amount">2–5% per transaction</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">👨‍🏫</div>
+        <div class="rev-title">Expert Marketplace</div>
+        <div class="rev-desc">Expert ki har session ka 20% platform ka. Expert ₹8K–₹1.3L/month kamata hai, platform 20% le jaata hai.</div>
+        <div class="rev-amount">20% commission per session</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">🚁</div>
+        <div class="rev-title">RaaS — Equipment Rental</div>
+        <div class="rev-desc">Drone/tractor hourly rent ka 15% platform ko. Equipment owner bhi khush, farmer bhi khush.</div>
+        <div class="rev-amount">15% of rental value</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">📊</div>
+        <div class="rev-title">Data Licensing</div>
+        <div class="rev-desc">Anonymized crop, weather, soil data agri companies ko sell — fertilizer companies, insurance firms, seed companies.</div>
+        <div class="rev-amount">B2B data contracts</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">🏦</div>
+        <div class="rev-title">Fintech Referral</div>
+        <div class="rev-desc">Loan facilitate karo, bank se referral fee lo. Platform zero risk leta hai — sirf connection karta hai, margin pure.</div>
+        <div class="rev-amount">1–2% referral fee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VS COMPETITORS -->
+<section class="section vs-section">
+  <div class="section-inner">
+    <p class="section-eyebrow fade-in">Competition</p>
+    <h2 class="section-title fade-in">Hum kaise alag hain?</h2>
+    <p class="section-sub fade-in">Fasal.co aur baki platforms ek cheez karte hain. Hum sab kuch karte hain.</p>
+    <table class="vs-table fade-in">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Fasal.co / Others</th>
+          <th>KisanOS ✦</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI Crop Disease Detection</td>
+          <td class="partial">Partial (IoT sensor based)</td>
+          <td class="yes">Yes — camera + AI, no hardware</td>
+        </tr>
+        <tr>
+          <td>Price Prediction + Marketplace</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — direct buyers, 3-day prediction</td>
+        </tr>
+        <tr>
+          <td>Labour Network (Uber model)</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — verified workers, AI matching</td>
+        </tr>
+        <tr>
+          <td>Equipment Rental (RaaS)</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — drone, tractor, sprayer hourly</td>
+        </tr>
+        <tr>
+          <td>Expert Marketplace (Human + AI)</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — free demo + paid sessions</td>
+        </tr>
+        <tr>
+          <td>Govt Scheme Auto-Apply</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — PM Kisan, PMFBY, KCC</td>
+        </tr>
+        <tr>
+          <td>Regional Language Voice</td>
+          <td class="partial">Limited</td>
+          <td class="yes">Yes — 10+ languages, offline bhi</td>
+        </tr>
+        <tr>
+          <td>Digital Farm Twin (Future)</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — simulation before planting</td>
+        </tr>
+        <tr>
+          <td>Hardware Required?</td>
+          <td class="no">Yes — expensive IoT sensors</td>
+          <td class="yes">No — just a smartphone</td>
+        </tr>
+        <tr>
+          <td>Target Farmer</td>
+          <td class="partial">Urban / semi-urban</td>
+          <td class="yes">Village farmer, 2-acre land</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-content">
+    <p style="font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-bright);margin-bottom:1rem">Hackathon Ready · Fundable Idea</p>
+    <h2 class="cta-title">Ek platform.<br>14 crore <span style="color:var(--green-bright)">farmers.</span><br>Infinite impact.</h2>
+    <p class="cta-sub">KisanOS ek aisa platform hai jahan Indian farmer ko apni zameen ke baare mein kisi bhi faisle ke liye — kisi aur ki zarurat nahi.</p>
+    <div class="cta-actions">
+      <button class="btn-primary">Free Demo Try Karo</button>
+      <button class="btn-secondary">Investor Deck Dekho →</button>
+    </div>
+    <div style="margin-top:3rem;display:flex;gap:3rem;justify-content:center;flex-wrap:wrap">
+      <div style="text-align:center">
+        <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--green-bright)">₹1.08L+</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:4px">Value created per 5 farmers (demo)</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--amber)">6-in-1</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:4px">Features no competitor has</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--green-bright)">80%</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:4px">Hackathon win probability</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Kisan<span>OS</span></div>
+  <div class="footer-copy">Built for Agri Hackathon 2026 · India</div>
+  <div class="footer-tagline">Knowledge bhi ek crop hai 🌾</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+document.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', function() {
+    this.style.transform = 'scale(0.97)';
+    setTimeout(() => this.style.transform = '', 150);
+  });
+});
+</script>
+</body>
+</html>
